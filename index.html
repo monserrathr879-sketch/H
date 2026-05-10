@@ -1,187 +1,290 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>¡Te quiero hermana! ❤️</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#6366F1',
-                        accent: '#EC4899',
-                        dark: '#1F2937',
-                    },
-                    fontFamily: {
-                        poppins: ['Poppins', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
-    <style type="text/tailwindcss">
-        @layer utilities {
-            .sombra-suave { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
-            .texto-sombra { text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        }
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Te quiero hermana! ❤️</title>
 
-        /* ✅ ANIMACIÓN DEL CORAZÓN IGUAL AL VIDEO */
-        .corazon {
-            position: absolute;
-            color: #EC4899;
-            font-size: 40px;
-            opacity: 0;
-            transform: translateY(0) scale(0.2);
-            animation: flotarCorazon 1.5s ease-out forwards;
-        }
+<!-- GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-        @keyframes flotarCorazon {
-            0% {
-                opacity: 0;
-                transform: translateY(100px) scale(0.2) rotate(-10deg);
-            }
-            30% {
-                opacity: 1;
-                transform: translateY(40px) scale(1.1) rotate(5deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-120px) scale(0.8) rotate(0deg);
-            }
-        }
+<!-- TAILWIND -->
+<script src="https://cdn.tailwindcss.com"></script>
 
-        .latido {
-            animation: latidoRapido 0.7s infinite alternate;
-        }
+<!-- FONT AWESOME -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
 
-        @keyframes latidoRapido {
-            from { transform: scale(1); }
-            to { transform: scale(1.4); }
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                primary: '#6366F1',
+                accent: '#EC4899',
+                dark: '#1F2937',
+            },
+            fontFamily: {
+                poppins: ['Poppins', 'sans-serif'],
+            },
         }
-    </style>
+    }
+}
+</script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins', sans-serif;
+    overflow:hidden;
+    min-height:100vh;
+    background:linear-gradient(135deg,#eef2ff,#f5d0fe,#ffe4e6);
+    display:flex;
+    flex-direction:column;
+}
+
+/* SOMBRAS */
+.sombra-suave{
+    box-shadow:0 8px 32px rgba(0,0,0,0.1);
+}
+
+.texto-sombra{
+    text-shadow:0 2px 4px rgba(0,0,0,0.15);
+}
+
+/* LATIDO */
+.latido{
+    animation:latido 1s infinite;
+}
+
+@keyframes latido{
+    0%{transform:scale(1);}
+    25%{transform:scale(1.12);}
+    50%{transform:scale(1);}
+    75%{transform:scale(1.15);}
+    100%{transform:scale(1);}
+}
+
+/* APARECER */
+.aparecer{
+    animation:aparecer 1s ease;
+}
+
+@keyframes aparecer{
+    from{
+        opacity:0;
+        transform:scale(0.7);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* CORAZONES */
+.corazon{
+    position:absolute;
+    color:#EC4899;
+    font-size:35px;
+    opacity:0;
+    animation:flotar 2s linear forwards;
+}
+
+@keyframes flotar{
+    0%{
+        transform:translateY(0) scale(0.3) rotate(0deg);
+        opacity:0;
+    }
+
+    20%{
+        opacity:1;
+    }
+
+    100%{
+        transform:translateY(-500px) scale(1.2) rotate(360deg);
+        opacity:0;
+    }
+}
+
+/* BRILLO BOTÓN */
+.brillo:hover{
+    box-shadow:0 0 25px rgba(236,72,153,0.7);
+}
+
+/* FONDO */
+.fondo-animado{
+    position:fixed;
+    inset:0;
+    background:
+    radial-gradient(circle at top left, rgba(255,255,255,0.5), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(255,255,255,0.4), transparent 30%);
+    z-index:-1;
+}
+</style>
 </head>
-<body class="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 font-poppins text-dark min-h-screen flex flex-col relative overflow-hidden">
 
-    <!-- ✅ MÚSICA DE FONDO (SE ACTIVA AL DAR CLIC) -->
-    <audio id="musicaFondo" preload="auto" loop>
-        <source src="https://assets.mixkit.co/music/preview/mixkit-love-piano-1206.mp3" type="audio/mpeg">
-        Tu navegador no soporta audio.
-    
+<body>
 
-    <!-- ✅ CONTENEDOR DE CORAZONES -->
-    <div id="contenedorCorazones" class="fixed inset-0 pointer-events-none z-50"></div>
+<div class="fondo-animado"></div>
 
-    <!-- HEADER -->
-    <header class="bg-white/60 backdrop-blur-md text-dark py-5 shadow-md border-b border-white/20">
-        <div class="px-4">
-            <h1 class="text-2xl font-bold text-center flex items-center justify-center gap-3 texto-sombra">
-                <i class="fa fa-heart text-accent text-3xl latido"></i>
-                Mensaje Especial
-            </h1>
-            <p class="text-center text-gray-600 text-sm mt-1 font-medium">Un regalo para ti ❤️</p>
-        </div>
-    </header>
+<!-- AUDIO -->
+<audio id="musicaFondo" loop>
+    <source src="https://assets.mixkit.co/music/preview/mixkit-love-piano-1206.mp3" type="audio/mpeg">
+</audio>
 
-    <!-- MAIN -->
-    <main class="px-4 py-20 flex-grow relative">
+<!-- HEADER -->
+<header class="bg-white/60 backdrop-blur-md shadow-md py-5 border-b border-white/30">
+    <h1 class="text-center text-3xl font-bold text-dark flex items-center justify-center gap-3 texto-sombra">
+        <i class="fa fa-heart text-accent latido"></i>
+        Mensaje Especial
+    </h1>
 
-        <!-- ✅ PANTALLA 1: BOTÓN INICIAL -->
-        <div id="pantallaInicio" class="w-full max-w-md mx-auto bg-white/80 backdrop-blur-lg rounded-3xl sombra-suave p-8 border border-white/30 text-center">
-            
-            <div class="mb-8">
-                <i class="fa fa-heart text-accent text-7xl latido"></i>
+    <p class="text-center text-gray-600 mt-2">
+        Un regalo con mucho cariño ❤️
+    </p>
+</header>
+
+<!-- MAIN -->
+<main class="flex-grow flex items-center justify-center px-5 relative">
+
+    <!-- PANTALLA INICIO -->
+    <div id="pantallaInicio"
+    class="bg-white/80 backdrop-blur-lg rounded-3xl sombra-suave p-10 w-full max-w-md text-center aparecer border border-white/30">
+
+        <i class="fa fa-heart text-accent text-8xl latido mb-8"></i>
+
+        <h2 class="text-3xl font-bold text-dark mb-4 texto-sombra">
+            ¿Quieres ver el mensaje?
+        </h2>
+
+        <p class="text-gray-600 mb-8">
+            Presiona el botón para abrir la sorpresa ✨
+        </p>
+
+        <button onclick="mostrarMensaje()"
+        class="brillo w-full bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white py-4 rounded-2xl text-lg font-semibold transition-all duration-300 hover:scale-105 active:scale-95">
+
+            <i class="fa fa-paper-plane-o mr-2"></i>
+            Abrir Mensaje
+
+        </button>
+    </div>
+
+    <!-- PANTALLA MENSAJE -->
+    <div id="pantallaMensaje"
+    class="hidden absolute inset-0 flex items-center justify-center px-5">
+
+        <!-- CONTENEDOR -->
+        <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-10 max-w-md w-full text-center sombra-suave relative overflow-hidden aparecer">
+
+            <!-- CORAZONES -->
+            <div id="corazonesAnimados"
+            class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+
+            <!-- ICONO -->
+            <div class="w-36 h-36 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center mx-auto mb-8 shadow-xl">
+                <i class="fa fa-heart text-white text-7xl latido"></i>
             </div>
 
-            <h2 class="text-2xl font-bold text-dark mb-4 texto-sombra">¿Quieres ver lo que dice?</h2>
-            <p class="text-gray-600 mb-8 font-medium">Prepárate para una sorpresa llena de cariño</p>
+            <!-- TEXTO -->
+            <h2 class="text-5xl font-bold text-accent texto-sombra mb-6 latido">
+                ¡Te quiero hermana! ❤️
+            </h2>
 
-            <button type="button" onclick="mostrarMensaje()"
-                    class="w-full bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white font-semibold py-4 px-4 rounded-xl text-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:scale-[0.98]">
-                <i class="fa fa-paper-plane-o mr-2"></i> Abrir Mensaje
+            <p class="text-gray-700 text-lg leading-relaxed mb-8">
+                Eres una persona muy especial para mí 🫂✨
+                <br><br>
+                Gracias por siempre estar conmigo.
+            </p>
+
+            <!-- BOTÓN -->
+            <button onclick="volverInicio()"
+            class="brillo w-full bg-gradient-to-r from-primary to-accent text-white py-4 rounded-2xl text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-300">
+
+                Volver
+
             </button>
+
         </div>
 
-        <!-- ✅ PANTALLA 2: MENSAJE "TE QUIERO HERMANA" CON ANIMACIÓN Y MÚSICA -->
-        <div id="pantallaMensaje" class="hidden absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-pink-100 to-purple-100 z-20">
-            <div class="bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl p-10 text-center max-w-sm w-full border border-white/40 relative overflow-hidden">
-                
-                <!-- ✅ CORAZONES SALIENDO IGUAL QUE EN EL VIDEO -->
-                <div id="corazonesAnimados" class="absolute inset-0 pointer-events-none"></div>
+    </div>
 
-                <div class="w-32 h-32 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                    <i class="fa fa-heart text-white text-6xl latido"></i>
-                </div>
+</main>
 
-                <!-- ✅ EL MENSAJE QUE PEDISTE -->
-                <h2 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold text-accent mb-4 texto-sombra latido">
-                    ¡Te quiero hermana! ❤️
-                </h2>
-                
-                <p class="text-gray-700 text-lg mb-8 leading-relaxed font-medium">
-                    Eres muy especial para mí, siempre estaré aquí para ti. 🫂✨
-                </p>
+<!-- FOOTER -->
+<footer class="bg-white/50 backdrop-blur-md border-t border-white/30 py-4 text-center text-gray-600 text-sm">
+    © 2026 | Hecho con mucho cariño ❤️
+</footer>
 
-                <button type="button" onclick="volverInicio()"
-                        class="w-full bg-gradient-to-r from-primary to-accent text-white font-semibold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5">
-                    Volver
-                </button>
-            </div>
-        </div>
+<script>
 
-    </main>
+// CREAR CORAZONES
+function crearCorazon(){
 
-    <!-- FOOTER -->
-    <footer class="bg-white/40 backdrop-blur-sm text-gray-600 py-4 mt-6 border-t border-white/20">
-        <div class="px-3 text-center text-xs font-medium">
-            <p>&copy; 2026 | Con mucho cariño ❤️</p>
-        </div>
-    </footer>
+    const contenedor = document.getElementById('corazonesAnimados');
 
-    <script>
-        // ✅ FUNCIÓN PARA CREAR CORAZONES (IGUAL AL VIDEO)
-        function crearCorazon(contenedor) {
-            const corazon = document.createElement('i');
-            corazon.className = 'fa fa-heart corazon';
-            corazon.style.left = Math.random() * 280 + 'px';
-            corazon.style.top = '250px';
-            contenedor.appendChild(corazon);
-            setTimeout(() => corazon.remove(), 1500);
-        }
+    const corazon = document.createElement('i');
 
-        // ✅ AL DAR CLIC: APARECE MENSAJE, CORAZONES Y SUENA LA MÚSICA
-        function mostrarMensaje() {
-            // Ocultar inicio
-            document.getElementById('pantallaInicio').classList.add('hidden');
-            // Mostrar mensaje
-            document.getElementById('pantallaMensaje').classList.remove('hidden');
+    corazon.className = 'fa fa-heart corazon';
 
-            // ✅ ACTIVAR MÚSICA DE FONDO
-            const musica = document.getElementById('musicaFondo');
-            musica.volume = 0.5; // Volumen medio, suave
-            musica.play();
+    corazon.style.left = Math.random() * 100 + '%';
 
-            // ✅ SACAN MUCHOS CORAZONES IGUAL QUE EN TU VIDEO
-            const contenedor = document.getElementById('corazonesAnimados');
-            for (let i = 0; i < 12; i++) {
-                setTimeout(() => crearCorazon(contenedor), i * 120);
-            }
-        }
+    corazon.style.bottom = '-20px';
 
-        // ✅ VOLVER A LA PANTALLA PRINCIPAL Y PARAR LA MÚSICA
-        function volverInicio() {
-            document.getElementById('pantallaMensaje').classList.add('hidden');
-            document.getElementById('pantallaInicio').classList.remove('hidden');
-            
-            // ✅ DETENER LA MÚSICA AL VOLVER
-            const musica = document.getElementById('musicaFondo');
-            musica.pause();
-            musica.currentTime = 0; // Reinicia para la próxima vez
-        }
-    </script>
+    corazon.style.fontSize = (20 + Math.random() * 30) + 'px';
+
+    contenedor.appendChild(corazon);
+
+    setTimeout(() => {
+        corazon.remove();
+    }, 2000);
+}
+
+// MOSTRAR MENSAJE
+function mostrarMensaje(){
+
+    document.getElementById('pantallaInicio').classList.add('hidden');
+
+    document.getElementById('pantallaMensaje').classList.remove('hidden');
+
+    // MÚSICA
+    const musica = document.getElementById('musicaFondo');
+
+    musica.volume = 0.5;
+
+    musica.play().catch(error => {
+        console.log(error);
+    });
+
+    // CORAZONES CONTINUOS
+    window.intervaloCorazones = setInterval(() => {
+        crearCorazon();
+    }, 200);
+}
+
+// VOLVER
+function volverInicio(){
+
+    document.getElementById('pantallaMensaje').classList.add('hidden');
+
+    document.getElementById('pantallaInicio').classList.remove('hidden');
+
+    // DETENER CORAZONES
+    clearInterval(window.intervaloCorazones);
+
+    // DETENER MÚSICA
+    const musica = document.getElementById('musicaFondo');
+
+    musica.pause();
+
+    musica.currentTime = 0;
+}
+
+</script>
 
 </body>
 </html>
