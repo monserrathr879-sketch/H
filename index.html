@@ -20,14 +20,12 @@ body{
     font-family:Arial, sans-serif;
 }
 
-/* CANVAS */
-
 canvas{
     position:fixed;
     inset:0;
 }
 
-/* PANTALLA INICIAL */
+/* PANTALLA */
 
 .inicio{
 
@@ -45,7 +43,7 @@ canvas{
 
     background:
     radial-gradient(circle,
-    rgba(10,10,30,.95),
+    rgba(10,10,30,.96),
     black);
 
     z-index:100;
@@ -61,13 +59,13 @@ canvas{
 
     color:#9fd0ff;
 
+    margin-bottom:20px;
+
     text-shadow:
     0 0 10px #66bbff,
-    0 0 20px #66bbff,
-    0 0 40px #66bbff,
+    0 0 25px #66bbff,
+    0 0 50px #66bbff,
     0 0 100px #66bbff;
-
-    margin-bottom:20px;
 
     animation: glow 2s infinite alternate;
 }
@@ -78,9 +76,9 @@ canvas{
 
     font-size:25px;
 
-    text-align:center;
-
     line-height:42px;
+
+    text-align:center;
 
     max-width:850px;
 
@@ -130,22 +128,22 @@ canvas{
 
     transform:translate(-50%,-50%);
 
-    text-align:center;
-
     font-size:70px;
 
     font-weight:bold;
 
-    color:#9fd0ff;
+    text-align:center;
 
-    z-index:20;
+    color:#9fd0ff;
 
     opacity:0;
 
+    z-index:20;
+
     text-shadow:
     0 0 10px #66bbff,
-    0 0 20px #66bbff,
-    0 0 40px #66bbff,
+    0 0 25px #66bbff,
+    0 0 50px #66bbff,
     0 0 100px #66bbff;
 
     animation: glow 2s infinite alternate;
@@ -167,7 +165,7 @@ canvas{
 
 <body>
 
-<!-- PANTALLA -->
+<!-- INICIO -->
 
 <div class="inicio" id="inicio">
 
@@ -177,14 +175,16 @@ canvas{
 
     <div class="frase">
 
-        Gracias por cada momento,
-        por cada sonrisa
-        y por estar siempre conmigo.
+        Gracias por estar conmigo
+        en cada momento.
 
-        Pase lo que pase,
-        siempre serás
-        una parte importante
-        de mi corazón.
+        Por las risas,
+        los recuerdos
+        y por nunca dejarme solo.
+
+        Siempre tendrás
+        un lugar especial
+        en mi corazón.
 
     </div>
 
@@ -203,7 +203,7 @@ canvas{
 <!-- AUDIO -->
 
 <audio id="musica" loop>
-    <source src="tu-cancion.mp3" type="audio/mpeg">
+    <source src="New West - Those Eyes (Lyrics).mp3" type="audio/mpeg">
 </audio>
 
 <!-- CANVAS -->
@@ -230,20 +230,23 @@ function random(min,max){
     return Math.random()*(max-min)+min;
 }
 
-/* ROSA REALISTA */
+/* ROSA MÁS REALISTA */
 
 function roseShape(t){
 
     const r =
-    18 * Math.sin(6*t)
-    + 7 * Math.sin(3*t)
-    + 4 * Math.sin(9*t);
+    20
+    + 8*Math.sin(6*t)
+    + 4*Math.sin(12*t);
 
     return{
 
-        x:r*Math.cos(t),
+        x:
+        r*Math.cos(t)
+        * Math.sin(t/2),
 
-        y:r*Math.sin(t)
+        y:
+        r*Math.sin(t)
     }
 }
 
@@ -269,7 +272,7 @@ function heartShape(t){
 function flowerShape(t){
 
     const r =
-    20*Math.sin(5*t);
+    22*Math.sin(5*t);
 
     return{
 
@@ -285,7 +288,7 @@ function createShape(shape,scale=20){
 
     particles=[];
 
-    for(let i=0;i<7000;i++){
+    for(let i=0;i<9000;i++){
 
         const t =
         Math.random()*Math.PI*2;
@@ -297,11 +300,11 @@ function createShape(shape,scale=20){
 
             x:
             canvas.width/2
-            + random(-900,900),
+            + random(-1200,1200),
 
             y:
             canvas.height/2
-            + random(-900,900),
+            + random(-1200,1200),
 
             tx:
             canvas.width/2 + p.x*scale,
@@ -316,10 +319,10 @@ function createShape(shape,scale=20){
             random(.5,1),
 
             speed:
-            random(.01,.03),
+            random(.008,.03),
 
             glow:
-            random(15,35)
+            random(10,40)
         });
     }
 }
@@ -330,12 +333,10 @@ function dissolve(){
 
     particles.forEach(p=>{
 
-        p.tx += random(-1200,1200);
+        p.tx += random(-1500,1500);
 
-        p.ty += random(-1200,1200);
+        p.ty += random(-1500,1500);
 
-        p.speed =
-        random(.005,.02);
     });
 }
 
@@ -344,7 +345,7 @@ function dissolve(){
 function animate(){
 
     ctx.fillStyle =
-    "rgba(0,0,0,.10)";
+    "rgba(0,0,0,.08)";
 
     ctx.fillRect(
         0,
@@ -394,7 +395,7 @@ function sequence(){
 
     createShape(
         roseShape,
-        24
+        16
     );
 
     /* DISOLVER */
@@ -411,7 +412,7 @@ function sequence(){
 
         createShape(
             heartShape,
-            20
+            18
         );
 
     },9000);
@@ -430,7 +431,7 @@ function sequence(){
 
         createShape(
             flowerShape,
-            24
+            20
         );
 
     },18000);
@@ -449,7 +450,7 @@ function sequence(){
 
         createShape(
             roseShape,
-            24
+            16
         );
 
     },27000);
@@ -475,13 +476,26 @@ function iniciar(){
         "texto"
     ).style.opacity = "1";
 
+    /* AUDIO */
+
+    const musica =
     document.getElementById(
         "musica"
-    ).play();
+    );
+
+    musica.volume = 1;
+
+    musica.play().catch(e=>{
+
+        console.log(e);
+
+    });
+
+    /* ANIMACIÓN */
 
     createShape(
         roseShape,
-        24
+        16
     );
 
     animate();
