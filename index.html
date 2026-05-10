@@ -20,13 +20,116 @@ body{
     font-family:Arial, sans-serif;
 }
 
-/* CANVAS */
-canvas{
+/* PANTALLA INICIAL */
+
+.inicio{
+
     position:fixed;
     inset:0;
+
+    display:flex;
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    background:
+    radial-gradient(circle,
+    rgba(20,20,40,.9),
+    black);
+
+    z-index:20;
+
+    transition:1s;
+}
+
+.titulo{
+
+    font-size:70px;
+
+    font-weight:bold;
+
+    color:#9fd0ff;
+
+    text-align:center;
+
+    text-shadow:
+    0 0 10px #66bbff,
+    0 0 20px #66bbff,
+    0 0 40px #66bbff,
+    0 0 80px #66bbff;
+
+    margin-bottom:20px;
+
+    animation: glow 2s infinite alternate;
+}
+
+.frase{
+
+    color:white;
+
+    font-size:24px;
+
+    max-width:700px;
+
+    text-align:center;
+
+    line-height:40px;
+
+    opacity:.9;
+
+    margin-bottom:50px;
+
+    padding:20px;
+}
+
+.boton{
+
+    padding:18px 45px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:#66bbff;
+
+    color:black;
+
+    font-size:25px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 0 20px #66bbff,
+    0 0 50px #66bbff;
+
+    transition:.4s;
+}
+
+.boton:hover{
+
+    transform:scale(1.08);
+
+    box-shadow:
+    0 0 30px #66bbff,
+    0 0 80px #66bbff;
+}
+
+@keyframes glow{
+
+    from{
+        opacity:.7;
+    }
+
+    to{
+        opacity:1;
+    }
 }
 
 /* TEXTO CENTRAL */
+
 .texto{
 
     position:absolute;
@@ -38,7 +141,7 @@ canvas{
 
     text-align:center;
 
-    font-size:60px;
+    font-size:65px;
 
     font-weight:bold;
 
@@ -46,29 +149,19 @@ canvas{
 
     z-index:10;
 
+    opacity:0;
+
     text-shadow:
     0 0 10px #66bbff,
     0 0 20px #66bbff,
     0 0 40px #66bbff,
     0 0 80px #66bbff;
 
-    animation: brillo 2s infinite alternate;
+    animation: glow 2s infinite alternate;
 }
 
-@keyframes brillo{
+/* BASE */
 
-    from{
-        opacity:.7;
-        transform:translate(-50%,-50%) scale(1);
-    }
-
-    to{
-        opacity:1;
-        transform:translate(-50%,-50%) scale(1.03);
-    }
-}
-
-/* BASE LUMINOSA */
 .base{
 
     position:absolute;
@@ -83,28 +176,22 @@ canvas{
 
     border-radius:50%;
 
-    background:rgba(120,200,255,.9);
+    background:#7ec8ff;
 
     filter:blur(25px);
 
-    box-shadow:
-    0 0 30px #66bbff,
-    0 0 80px #66bbff;
+    opacity:0;
 
-    animation:pulse 3s infinite;
+    box-shadow:
+    0 0 40px #66bbff,
+    0 0 100px #66bbff;
 }
 
-@keyframes pulse{
+/* CANVAS */
 
-    0%,100%{
-        opacity:.7;
-        transform:translateX(-50%) scale(1);
-    }
-
-    50%{
-        opacity:1;
-        transform:translateX(-50%) scale(1.15);
-    }
+canvas{
+    position:fixed;
+    inset:0;
 }
 
 </style>
@@ -112,37 +199,76 @@ canvas{
 
 <body>
 
-<div class="texto">
+<!-- PANTALLA INICIAL -->
+
+<div class="inicio" id="inicio">
+
+    <div class="titulo">
+        te amo hermana 💙
+    </div>
+
+    <div class="frase">
+    
+        Eres una de las personas más importantes de mi vida,
+        y aunque a veces no lo diga mucho,
+        siempre voy a cuidarte y quererte con todo mi corazón.
+    </div>
+
+    <button class="boton" onclick="iniciar()">
+        Ver Animación ✨
+    </button>
+
+</div>
+
+<!-- TEXTO -->
+
+<div class="texto" id="texto">
     te amo<br>hermana
 </div>
 
-<div class="base"></div>
+<!-- BASE -->
+
+<div class="base" id="base"></div>
+
+<!-- MÚSICA -->
+<!-- CAMBIA EL ARCHIVO MP3 -->
+
+<audio id="musica" loop>
+    <source src="New West - Those Eyes (Lyrics).mp3" type="audio/mpeg">
+</audio>
+
+<!-- CANVAS -->
 
 <canvas id="canvas"></canvas>
 
 <script>
 
-const canvas = document.getElementById("canvas");
-const ctx = canvas.getContext("2d");
+const canvas =
+document.getElementById("canvas");
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+const ctx =
+canvas.getContext("2d");
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
 
 let particles = [];
 
-let currentShape = "heart";
-
 /* RANDOM */
+
 function random(min,max){
+
     return Math.random()*(max-min)+min;
 }
 
-/* CORAZÓN */
+/* FORMAS */
+
 function heartShape(t){
 
     return{
 
-        x:16*Math.pow(Math.sin(t),3),
+        x:
+        16*Math.pow(Math.sin(t),3),
 
         y:
         13*Math.cos(t)
@@ -152,10 +278,10 @@ function heartShape(t){
     }
 }
 
-/* ROSA */
-function roseShape(t){
+function flowerShape(t){
 
-    const r = 18*Math.sin(5*t);
+    const r =
+    20*Math.sin(6*t);
 
     return{
 
@@ -165,16 +291,32 @@ function roseShape(t){
     }
 }
 
-/* CREAR FIGURA */
-function createParticles(shape){
+function roseShape(t){
 
-    particles = [];
+    const r =
+    24*Math.sin(5*t);
 
-    for(let i=0;i<2600;i++){
+    return{
 
-        const t = Math.random()*Math.PI*2;
+        x:r*Math.cos(t),
 
-        const p = shape(t);
+        y:r*Math.sin(t)
+    }
+}
+
+/* CREAR FIGURAS */
+
+function createShape(shape,scale=18){
+
+    particles=[];
+
+    for(let i=0;i<3200;i++){
+
+        const t =
+        Math.random()*Math.PI*2;
+
+        const p =
+        shape(t);
 
         particles.push({
 
@@ -182,52 +324,71 @@ function createParticles(shape){
 
             y:canvas.height/2,
 
-            tx:canvas.width/2 + p.x*18,
+            tx:
+            canvas.width/2 + p.x*scale,
 
-            ty:canvas.height/2 - p.y*18,
+            ty:
+            canvas.height/2 - p.y*scale,
 
-            size:random(1,4),
+            size:
+            random(1,4),
 
-            alpha:random(.4,1),
+            alpha:
+            random(.4,1),
 
-            speed:random(.01,.04),
+            speed:
+            random(.01,.04),
 
-            glow:random(8,25)
+            glow:
+            random(10,35)
         });
     }
 }
 
 /* EXPLOSIÓN */
+
 function explode(){
 
     particles.forEach(p=>{
 
-        p.tx += random(-700,700);
+        p.tx += random(-900,900);
 
-        p.ty += random(-700,700);
+        p.ty += random(-900,900);
     });
 }
 
 /* DIBUJAR */
+
 function animate(){
 
-    ctx.fillStyle = "rgba(0,0,0,.15)";
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle =
+    "rgba(0,0,0,.12)";
+
+    ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
 
     particles.forEach(p=>{
 
-        p.x += (p.tx-p.x)*p.speed;
+        p.x +=
+        (p.tx-p.x)*p.speed;
 
-        p.y += (p.ty-p.y)*p.speed;
+        p.y +=
+        (p.ty-p.y)*p.speed;
 
         ctx.beginPath();
 
         ctx.fillStyle =
         `rgba(120,190,255,${p.alpha})`;
 
-        ctx.shadowBlur = p.glow;
+        ctx.shadowBlur =
+        p.glow;
 
-        ctx.shadowColor = "#66bbff";
+        ctx.shadowColor =
+        "#66bbff";
 
         ctx.arc(
             p.x,
@@ -247,58 +408,110 @@ function animate(){
 
 function sequence(){
 
-    /* CORAZÓN */
-    currentShape="heart";
+    createShape(
+        heartShape,
+        18
+    );
 
-    createParticles(heartShape);
-
-    /* DESINTEGRAR */
     setTimeout(()=>{
 
         explode();
 
-    },4500);
+    },5000);
 
-    /* ROSA */
     setTimeout(()=>{
 
-        currentShape="rose";
+        createShape(
+            flowerShape,
+            22
+        );
 
-        createParticles(roseShape);
+    },9000);
 
-    },8000);
-
-    /* DESINTEGRAR */
     setTimeout(()=>{
 
         explode();
 
-    },12500);
+    },14000);
 
-    /* CORAZÓN */
     setTimeout(()=>{
 
-        currentShape="heart";
+        createShape(
+            roseShape,
+            24
+        );
 
-        createParticles(heartShape);
+    },18000);
 
-    },16500);
+    setTimeout(()=>{
+
+        explode();
+
+    },24000);
+
+    setTimeout(()=>{
+
+        createShape(
+            heartShape,
+            18
+        );
+
+    },29000);
 }
 
-/* INICIO */
-createParticles(heartShape);
+/* INICIAR */
 
-animate();
+function iniciar(){
 
-sequence();
+    document.getElementById(
+        "inicio"
+    ).style.opacity = "0";
 
-setInterval(sequence,21000);
+    setTimeout(()=>{
+
+        document.getElementById(
+            "inicio"
+        ).style.display = "none";
+
+    },1000);
+
+    document.getElementById(
+        "texto"
+    ).style.opacity = "1";
+
+    document.getElementById(
+        "base"
+    ).style.opacity = "1";
+
+    /* REPRODUCIR MÚSICA */
+
+    const musica =
+    document.getElementById(
+        "musica"
+    );
+
+    musica.play();
+
+    /* ANIMACIÓN */
+
+    createShape(
+        heartShape,
+        18
+    );
+
+    animate();
+
+    sequence();
+
+    setInterval(sequence,34000);
+}
 
 /* RESPONSIVE */
-window.addEventListener("resize",()=>{
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+addEventListener("resize",()=>{
+
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
 });
 
 </script>
