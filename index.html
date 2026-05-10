@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Te Amo Hermana</title>
+<title>Te Amo Hermana 💙</title>
 
 <style>
 
@@ -18,6 +18,13 @@ body{
     overflow:hidden;
     background:black;
     font-family:Arial, sans-serif;
+}
+
+/* CANVAS */
+
+canvas{
+    position:fixed;
+    inset:0;
 }
 
 /* PANTALLA INICIAL */
@@ -38,7 +45,7 @@ body{
 
     background:
     radial-gradient(circle,
-    rgba(20,20,40,.95),
+    rgba(15,15,35,.95),
     black);
 
     z-index:100;
@@ -50,17 +57,19 @@ body{
 
     font-size:75px;
 
-    color:#9fd0ff;
-
     text-align:center;
+
+    color:#9fd0ff;
 
     text-shadow:
     0 0 10px #66bbff,
     0 0 20px #66bbff,
     0 0 40px #66bbff,
-    0 0 90px #66bbff;
+    0 0 80px #66bbff;
 
-    margin-bottom:20px;
+    margin-bottom:25px;
+
+    animation: brillo 2s infinite alternate;
 }
 
 .frase{
@@ -69,20 +78,20 @@ body{
 
     font-size:25px;
 
-    max-width:800px;
-
     text-align:center;
 
-    line-height:45px;
+    line-height:42px;
+
+    max-width:850px;
 
     padding:20px;
 
-    margin-bottom:40px;
+    margin-bottom:45px;
 }
 
 .boton{
 
-    padding:18px 50px;
+    padding:18px 55px;
 
     border:none;
 
@@ -102,7 +111,7 @@ body{
 
     box-shadow:
     0 0 20px #66bbff,
-    0 0 60px #66bbff;
+    0 0 70px #66bbff;
 }
 
 .boton:hover{
@@ -123,7 +132,7 @@ body{
 
     text-align:center;
 
-    font-size:65px;
+    font-size:70px;
 
     font-weight:bold;
 
@@ -137,49 +146,20 @@ body{
     0 0 10px #66bbff,
     0 0 20px #66bbff,
     0 0 40px #66bbff,
-    0 0 80px #66bbff;
+    0 0 100px #66bbff;
 
-    animation: glow 2s infinite alternate;
+    animation: brillo 2s infinite alternate;
 }
 
-@keyframes glow{
+@keyframes brillo{
 
     from{
-        opacity:.7;
+        opacity:.75;
     }
 
     to{
         opacity:1;
     }
-}
-
-/* BASE */
-
-.base{
-
-    position:absolute;
-
-    bottom:100px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:260px;
-
-    height:40px;
-
-    border-radius:50%;
-
-    background:#7ec8ff;
-
-    filter:blur(25px);
-
-    opacity:0;
-
-    box-shadow:
-    0 0 40px #66bbff,
-    0 0 100px #66bbff;
 }
 
 /* IMÁGENES */
@@ -196,7 +176,7 @@ body{
 
     align-items:center;
 
-    gap:40px;
+    gap:50px;
 
     opacity:0;
 
@@ -220,8 +200,8 @@ body{
     border:3px solid #8ec5ff;
 
     box-shadow:
-    0 0 20px #66bbff,
-    0 0 60px #66bbff,
+    0 0 25px #66bbff,
+    0 0 70px #66bbff,
     0 0 120px #66bbff;
 
     opacity:0;
@@ -252,19 +232,12 @@ body{
     transition:2s;
 }
 
-/* CANVAS */
-
-canvas{
-    position:fixed;
-    inset:0;
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- PANTALLA -->
+<!-- PANTALLA INICIAL -->
 
 <div class="inicio" id="inicio">
 
@@ -274,14 +247,14 @@ canvas{
 
     <div class="frase">
 
-        Gracias por estar siempre conmigo.
-
-        Por las risas,
-        los momentos felices,
+        Gracias por estar siempre conmigo,
+        por las risas,
+        los momentos felices
         y por nunca dejarme solo.
 
         Pase lo que pase,
-        siempre tendrás un lugar especial
+        siempre tendrás
+        un lugar especial
         en mi corazón.
 
     </div>
@@ -298,23 +271,19 @@ canvas{
     te amo<br>hermana
 </div>
 
-<!-- BASE -->
-
-<div class="base" id="base"></div>
-
 <!-- IMÁGENES -->
 
 <div class="imagenes" id="imagenes">
 
-    <!-- CAMBIA AQUÍ LAS FOTOS -->
+    <!-- CAMBIA AQUÍ TUS FOTOS -->
 
     <img
-    src="foto1.jpg"
+    src="Screenshot_2026-05-09-20-43-46-679_com.google.android.apps.photos.jpg"
     class="foto foto1"
     id="foto1">
 
     <img
-    src="foto2.jpg"
+    src="Screenshot_2026-05-09-20-43-49-913_com.google.android.apps.photos.jpg"
     class="foto foto2"
     id="foto2">
 
@@ -350,7 +319,23 @@ function random(min,max){
     return Math.random()*(max-min)+min;
 }
 
-/* FORMAS */
+/* ROSA */
+
+function roseShape(t){
+
+    const r =
+    18*Math.sin(6*t)
+    + 8*Math.sin(3*t);
+
+    return{
+
+        x:r*Math.cos(t),
+
+        y:r*Math.sin(t)
+    }
+}
+
+/* CORAZÓN */
 
 function heartShape(t){
 
@@ -367,10 +352,12 @@ function heartShape(t){
     }
 }
 
+/* FLOR */
+
 function flowerShape(t){
 
     const r =
-    20*Math.sin(6*t);
+    22*Math.sin(5*t);
 
     return{
 
@@ -380,26 +367,13 @@ function flowerShape(t){
     }
 }
 
-function roseShape(t){
-
-    const r =
-    24*Math.sin(5*t);
-
-    return{
-
-        x:r*Math.cos(t),
-
-        y:r*Math.sin(t)
-    }
-}
-
-/* CREAR FIGURA */
+/* CREAR FIGURAS */
 
 function createShape(shape,scale=18){
 
     particles=[];
 
-    for(let i=0;i<3200;i++){
+    for(let i=0;i<5000;i++){
 
         const t =
         Math.random()*Math.PI*2;
@@ -420,13 +394,13 @@ function createShape(shape,scale=18){
             canvas.height/2 - p.y*scale,
 
             size:
-            random(1,4),
+            random(1,3.5),
 
             alpha:
-            random(.4,1),
+            random(.5,1),
 
             speed:
-            random(.01,.04),
+            random(.01,.03),
 
             glow:
             random(10,35)
@@ -440,9 +414,9 @@ function explode(){
 
     particles.forEach(p=>{
 
-        p.tx += random(-900,900);
+        p.tx += random(-1000,1000);
 
-        p.ty += random(-900,900);
+        p.ty += random(-1000,1000);
     });
 }
 
@@ -451,7 +425,7 @@ function explode(){
 function animate(){
 
     ctx.fillStyle =
-    "rgba(0,0,0,.12)";
+    "rgba(0,0,0,.10)";
 
     ctx.fillRect(
         0,
@@ -493,19 +467,19 @@ function animate(){
     requestAnimationFrame(animate);
 }
 
-/* MOSTRAR IMÁGENES */
+/* MOSTRAR FOTOS */
 
 function mostrarFotos(){
 
     const imagenes =
     document.getElementById(
-        "Screenshot_2026-05-09-20-41-35-094_com.google.android.apps.photos.jpg"
+        "imagenes"
     );
 
     imagenes.style.opacity = "1";
 
     document.getElementById(
-        "Screenshot_2026-05-09-20-43-46-679_com.google.android.apps.photos.jpg"
+        "foto1"
     ).classList.add(
         "visible"
     );
@@ -513,7 +487,7 @@ function mostrarFotos(){
     setTimeout(()=>{
 
         document.getElementById(
-            "Screenshot_2026-05-09-20-43-49-913_com.google.android.apps.photos.jpg"
+            "foto2"
         ).classList.add(
             "visible"
         );
@@ -521,7 +495,7 @@ function mostrarFotos(){
     },1500);
 }
 
-/* OCULTAR */
+/* OCULTAR FOTOS */
 
 function ocultarFotos(){
 
@@ -534,11 +508,11 @@ function ocultarFotos(){
 
 function sequence(){
 
-    /* CORAZÓN */
+    /* ROSA */
 
     createShape(
-        heartShape,
-        18
+        roseShape,
+        22
     );
 
     /* EXPLOSIÓN */
@@ -547,7 +521,26 @@ function sequence(){
 
         explode();
 
-    },5000);
+    },6000);
+
+    /* CORAZÓN */
+
+    setTimeout(()=>{
+
+        createShape(
+            heartShape,
+            18
+        );
+
+    },10000);
+
+    /* MOSTRAR FOTOS */
+
+    setTimeout(()=>{
+
+        mostrarFotos();
+
+    },14000);
 
     /* FLOR */
 
@@ -558,26 +551,7 @@ function sequence(){
             22
         );
 
-    },9000);
-
-    /* MOSTRAR FOTOS */
-
-    setTimeout(()=>{
-
-        mostrarFotos();
-
-    },13000);
-
-    /* ROSA */
-
-    setTimeout(()=>{
-
-        createShape(
-            roseShape,
-            24
-        );
-
-    },17000);
+    },18000);
 
     /* OCULTAR FOTOS */
 
@@ -585,7 +559,7 @@ function sequence(){
 
         ocultarFotos();
 
-    },23000);
+    },24000);
 
     /* EXPLOSIÓN */
 
@@ -593,7 +567,7 @@ function sequence(){
 
         explode();
 
-    },25000);
+    },26000);
 
     /* CORAZÓN FINAL */
 
@@ -604,7 +578,7 @@ function sequence(){
             18
         );
 
-    },29000);
+    },30000);
 }
 
 /* INICIAR */
@@ -628,27 +602,19 @@ function iniciar(){
     ).style.opacity = "1";
 
     document.getElementById(
-        "base"
-    ).style.opacity = "1";
-
-    /* MÚSICA */
-
-    document.getElementById(
         "musica"
     ).play();
 
-    /* ANIMACIÓN */
-
     createShape(
-        heartShape,
-        18
+        roseShape,
+        22
     );
 
     animate();
 
     sequence();
 
-    setInterval(sequence,34000);
+    setInterval(sequence,35000);
 }
 
 /* RESPONSIVE */
