@@ -20,70 +20,72 @@ body{
     font-family:Arial, sans-serif;
 }
 
+/* CANVAS */
 canvas{
     position:fixed;
     inset:0;
 }
 
-/* TEXTO */
+/* TEXTO CENTRAL */
 .texto{
 
     position:absolute;
 
-    top:10%;
+    top:50%;
+    left:50%;
 
-    width:100%;
+    transform:translate(-50%,-50%);
 
     text-align:center;
 
-    font-size:70px;
+    font-size:60px;
 
     font-weight:bold;
 
-    color:#8ec5ff;
+    color:#9fd0ff;
+
+    z-index:10;
 
     text-shadow:
-    0 0 10px #8ec5ff,
-    0 0 20px #8ec5ff,
-    0 0 40px #8ec5ff,
-    0 0 80px #8ec5ff;
+    0 0 10px #66bbff,
+    0 0 20px #66bbff,
+    0 0 40px #66bbff,
+    0 0 80px #66bbff;
 
-    opacity:0;
-
-    animation: aparecerTexto 2s forwards;
+    animation: brillo 2s infinite alternate;
 }
 
-@keyframes aparecerTexto{
+@keyframes brillo{
 
     from{
-        opacity:0;
-        transform:translateY(-30px);
+        opacity:.7;
+        transform:translate(-50%,-50%) scale(1);
     }
 
     to{
         opacity:1;
-        transform:translateY(0);
+        transform:translate(-50%,-50%) scale(1.03);
     }
 }
 
-/* BRILLO BASE */
+/* BASE LUMINOSA */
 .base{
 
     position:absolute;
 
-    bottom:120px;
+    bottom:100px;
     left:50%;
 
     transform:translateX(-50%);
 
-    width:220px;
-    height:35px;
+    width:260px;
+    height:40px;
 
     border-radius:50%;
 
     background:rgba(120,200,255,.9);
 
-    filter:blur(20px);
+    filter:blur(25px);
 
     box-shadow:
     0 0 30px #66bbff,
@@ -95,13 +97,13 @@ canvas{
 @keyframes pulse{
 
     0%,100%{
+        opacity:.7;
         transform:translateX(-50%) scale(1);
-        opacity:.8;
     }
 
     50%{
-        transform:translateX(-50%) scale(1.2);
         opacity:1;
+        transform:translateX(-50%) scale(1.15);
     }
 }
 
@@ -110,7 +112,9 @@ canvas{
 
 <body>
 
-<div class="texto">te amo hermana</div>
+<div class="texto">
+    te amo<br>hermana
+</div>
 
 <div class="base"></div>
 
@@ -126,14 +130,9 @@ canvas.height = window.innerHeight;
 
 let particles = [];
 
-let mode = "heart";
+let currentShape = "heart";
 
-/* MODOS:
-heart
-explode
-flower
-*/
-
+/* RANDOM */
 function random(min,max){
     return Math.random()*(max-min)+min;
 }
@@ -141,7 +140,7 @@ function random(min,max){
 /* CORAZÓN */
 function heartShape(t){
 
-    return {
+    return{
 
         x:16*Math.pow(Math.sin(t),3),
 
@@ -153,10 +152,10 @@ function heartShape(t){
     }
 }
 
-/* FLOR */
-function flowerShape(t){
+/* ROSA */
+function roseShape(t){
 
-    const r = 12 * Math.sin(6*t);
+    const r = 18*Math.sin(5*t);
 
     return{
 
@@ -166,12 +165,12 @@ function flowerShape(t){
     }
 }
 
-/* CREAR PARTÍCULAS */
-function createShape(shape){
+/* CREAR FIGURA */
+function createParticles(shape){
 
     particles = [];
 
-    for(let i=0;i<2200;i++){
+    for(let i=0;i<2600;i++){
 
         const t = Math.random()*Math.PI*2;
 
@@ -183,9 +182,9 @@ function createShape(shape){
 
             y:canvas.height/2,
 
-            tx:canvas.width/2 + p.x*22,
+            tx:canvas.width/2 + p.x*18,
 
-            ty:canvas.height/2 - p.y*22,
+            ty:canvas.height/2 - p.y*18,
 
             size:random(1,4),
 
@@ -193,24 +192,24 @@ function createShape(shape){
 
             speed:random(.01,.04),
 
-            glow:random(10,30)
+            glow:random(8,25)
         });
     }
 }
 
 /* EXPLOSIÓN */
-function explodeParticles(){
+function explode(){
 
     particles.forEach(p=>{
 
-        p.tx += random(-500,500);
+        p.tx += random(-700,700);
 
-        p.ty += random(-500,500);
+        p.ty += random(-700,700);
     });
 }
 
 /* DIBUJAR */
-function draw(){
+function animate(){
 
     ctx.fillStyle = "rgba(0,0,0,.15)";
     ctx.fillRect(0,0,canvas.width,canvas.height);
@@ -223,18 +222,25 @@ function draw(){
 
         ctx.beginPath();
 
-        ctx.fillStyle = `rgba(120,190,255,${p.alpha})`;
+        ctx.fillStyle =
+        `rgba(120,190,255,${p.alpha})`;
 
         ctx.shadowBlur = p.glow;
 
         ctx.shadowColor = "#66bbff";
 
-        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+        ctx.arc(
+            p.x,
+            p.y,
+            p.size,
+            0,
+            Math.PI*2
+        );
 
         ctx.fill();
     });
 
-    requestAnimationFrame(draw);
+    requestAnimationFrame(animate);
 }
 
 /* SECUENCIA */
@@ -242,52 +248,51 @@ function draw(){
 function sequence(){
 
     /* CORAZÓN */
-    mode="heart";
+    currentShape="heart";
 
-    createShape(heartShape);
+    createParticles(heartShape);
 
-    /* EXPLOSIÓN */
+    /* DESINTEGRAR */
     setTimeout(()=>{
 
-        mode="explode";
+        explode();
 
-        explodeParticles();
+    },4500);
 
-    },5000);
-
-    /* FLOR */
+    /* ROSA */
     setTimeout(()=>{
 
-        mode="flower";
+        currentShape="rose";
 
-        createShape(flowerShape);
+        createParticles(roseShape);
 
-    },9000);
+    },8000);
 
-    /* OTRA EXPLOSIÓN */
+    /* DESINTEGRAR */
     setTimeout(()=>{
 
-        explodeParticles();
+        explode();
 
-    },14000);
+    },12500);
 
-    /* REGRESA CORAZÓN */
+    /* CORAZÓN */
     setTimeout(()=>{
 
-        createShape(heartShape);
+        currentShape="heart";
 
-    },18000);
+        createParticles(heartShape);
+
+    },16500);
 }
 
 /* INICIO */
-createShape(heartShape);
+createParticles(heartShape);
 
-draw();
+animate();
 
 sequence();
 
-/* LOOP */
-setInterval(sequence,22000);
+setInterval(sequence,21000);
 
 /* RESPONSIVE */
 window.addEventListener("resize",()=>{
