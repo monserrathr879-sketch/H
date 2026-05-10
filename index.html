@@ -3,35 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>¡Te quiero hermana! ❤️</title>
-
-<!-- GOOGLE FONTS -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<!-- TAILWIND -->
-<script src="https://cdn.tailwindcss.com"></script>
-
-<!-- FONT AWESOME -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-
-<script>
-tailwind.config = {
-    theme: {
-        extend: {
-            colors: {
-                primary: '#6366F1',
-                accent: '#EC4899',
-                dark: '#1F2937',
-            },
-            fontFamily: {
-                poppins: ['Poppins', 'sans-serif'],
-            },
-        }
-    }
-}
-</script>
+<title>I Love You</title>
 
 <style>
+
 *{
     margin:0;
     padding:0;
@@ -39,250 +14,175 @@ tailwind.config = {
 }
 
 body{
-    font-family:'Poppins', sans-serif;
     overflow:hidden;
-    min-height:100vh;
-    background:linear-gradient(135deg,#eef2ff,#f5d0fe,#ffe4e6);
-    display:flex;
-    flex-direction:column;
+    background:black;
+    font-family:Arial, sans-serif;
 }
 
-/* SOMBRAS */
-.sombra-suave{
-    box-shadow:0 8px 32px rgba(0,0,0,0.1);
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
 }
 
-.texto-sombra{
-    text-shadow:0 2px 4px rgba(0,0,0,0.15);
+.texto{
+    position:absolute;
+    top:8%;
+    width:100%;
+    text-align:center;
+
+    font-size:70px;
+    font-weight:bold;
+
+    color:#66aaff;
+
+    text-shadow:
+    0 0 10px #66aaff,
+    0 0 20px #66aaff,
+    0 0 40px #66aaff,
+    0 0 80px #66aaff;
+
+    animation: brillo 2s infinite alternate;
 }
 
-/* LATIDO */
-.latido{
-    animation:latido 1s infinite;
-}
+@keyframes brillo{
 
-@keyframes latido{
-    0%{transform:scale(1);}
-    25%{transform:scale(1.12);}
-    50%{transform:scale(1);}
-    75%{transform:scale(1.15);}
-    100%{transform:scale(1);}
-}
-
-/* APARECER */
-.aparecer{
-    animation:aparecer 1s ease;
-}
-
-@keyframes aparecer{
     from{
-        opacity:0;
-        transform:scale(0.7);
+        opacity:.7;
     }
+
     to{
         opacity:1;
-        transform:scale(1);
     }
 }
 
-/* CORAZONES */
-.corazon{
-    position:absolute;
-    color:#EC4899;
-    font-size:35px;
-    opacity:0;
-    animation:flotar 2s linear forwards;
-}
-
-@keyframes flotar{
-    0%{
-        transform:translateY(0) scale(0.3) rotate(0deg);
-        opacity:0;
-    }
-
-    20%{
-        opacity:1;
-    }
-
-    100%{
-        transform:translateY(-500px) scale(1.2) rotate(360deg);
-        opacity:0;
-    }
-}
-
-/* BRILLO BOTÓN */
-.brillo:hover{
-    box-shadow:0 0 25px rgba(236,72,153,0.7);
-}
-
-/* FONDO */
-.fondo-animado{
-    position:fixed;
-    inset:0;
-    background:
-    radial-gradient(circle at top left, rgba(255,255,255,0.5), transparent 30%),
-    radial-gradient(circle at bottom right, rgba(255,255,255,0.4), transparent 30%);
-    z-index:-1;
-}
 </style>
 </head>
-
 <body>
 
-<div class="fondo-animado"></div>
+<div class="texto">I Love You</div>
 
-<!-- AUDIO -->
-<audio id="musicaFondo" loop>
-    <source src="https://assets.mixkit.co/music/preview/mixkit-love-piano-1206.mp3" type="audio/mpeg">
-</audio>
-
-<!-- HEADER -->
-<header class="bg-white/60 backdrop-blur-md shadow-md py-5 border-b border-white/30">
-    <h1 class="text-center text-3xl font-bold text-dark flex items-center justify-center gap-3 texto-sombra">
-        <i class="fa fa-heart text-accent latido"></i>
-        Mensaje Especial
-    </h1>
-
-    <p class="text-center text-gray-600 mt-2">
-        Un regalo con mucho cariño ❤️
-    </p>
-</header>
-
-<!-- MAIN -->
-<main class="flex-grow flex items-center justify-center px-5 relative">
-
-    <!-- PANTALLA INICIO -->
-    <div id="pantallaInicio"
-    class="bg-white/80 backdrop-blur-lg rounded-3xl sombra-suave p-10 w-full max-w-md text-center aparecer border border-white/30">
-
-        <i class="fa fa-heart text-accent text-8xl latido mb-8"></i>
-
-        <h2 class="text-3xl font-bold text-dark mb-4 texto-sombra">
-            ¿Quieres ver el mensaje?
-        </h2>
-
-        <p class="text-gray-600 mb-8">
-            Presiona el botón para abrir la sorpresa ✨
-        </p>
-
-        <button onclick="mostrarMensaje()"
-        class="brillo w-full bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white py-4 rounded-2xl text-lg font-semibold transition-all duration-300 hover:scale-105 active:scale-95">
-
-            <i class="fa fa-paper-plane-o mr-2"></i>
-            Abrir Mensaje
-
-        </button>
-    </div>
-
-    <!-- PANTALLA MENSAJE -->
-    <div id="pantallaMensaje"
-    class="hidden absolute inset-0 flex items-center justify-center px-5">
-
-        <!-- CONTENEDOR -->
-        <div class="bg-white/90 backdrop-blur-xl rounded-3xl p-10 max-w-md w-full text-center sombra-suave relative overflow-hidden aparecer">
-
-            <!-- CORAZONES -->
-            <div id="corazonesAnimados"
-            class="absolute inset-0 pointer-events-none overflow-hidden"></div>
-
-            <!-- ICONO -->
-            <div class="w-36 h-36 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center mx-auto mb-8 shadow-xl">
-                <i class="fa fa-heart text-white text-7xl latido"></i>
-            </div>
-
-            <!-- TEXTO -->
-            <h2 class="text-5xl font-bold text-accent texto-sombra mb-6 latido">
-                ¡Te quiero hermana! ❤️
-            </h2>
-
-            <p class="text-gray-700 text-lg leading-relaxed mb-8">
-                Eres una persona muy especial para mí 🫂✨
-                <br><br>
-                Gracias por siempre estar conmigo.
-            </p>
-
-            <!-- BOTÓN -->
-            <button onclick="volverInicio()"
-            class="brillo w-full bg-gradient-to-r from-primary to-accent text-white py-4 rounded-2xl text-lg font-semibold hover:scale-105 active:scale-95 transition-all duration-300">
-
-                Volver
-
-            </button>
-
-        </div>
-
-    </div>
-
-</main>
-
-<!-- FOOTER -->
-<footer class="bg-white/50 backdrop-blur-md border-t border-white/30 py-4 text-center text-gray-600 text-sm">
-    © 2026 | Hecho con mucho cariño ❤️
-</footer>
+<canvas id="canvas"></canvas>
 
 <script>
 
-// CREAR CORAZONES
-function crearCorazon(){
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
-    const contenedor = document.getElementById('corazonesAnimados');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-    const corazon = document.createElement('i');
+const particles = [];
 
-    corazon.className = 'fa fa-heart corazon';
+/* CREAR FORMA DE CORAZÓN */
+function heart(t){
 
-    corazon.style.left = Math.random() * 100 + '%';
+    const x = 16 * Math.pow(Math.sin(t),3);
 
-    corazon.style.bottom = '-20px';
+    const y =
+    13 * Math.cos(t)
+    -5 * Math.cos(2*t)
+    -2 * Math.cos(3*t)
+    -Math.cos(4*t);
 
-    corazon.style.fontSize = (20 + Math.random() * 30) + 'px';
-
-    contenedor.appendChild(corazon);
-
-    setTimeout(() => {
-        corazon.remove();
-    }, 2000);
+    return {
+        x:x,
+        y:y
+    }
 }
 
-// MOSTRAR MENSAJE
-function mostrarMensaje(){
+/* GENERAR PARTÍCULAS */
+for(let i=0;i<2000;i++){
 
-    document.getElementById('pantallaInicio').classList.add('hidden');
+    const t = Math.random() * Math.PI * 2;
 
-    document.getElementById('pantallaMensaje').classList.remove('hidden');
+    const punto = heart(t);
 
-    // MÚSICA
-    const musica = document.getElementById('musicaFondo');
+    particles.push({
 
-    musica.volume = 0.5;
+        x: canvas.width/2 + punto.x * 22 + (Math.random()-0.5)*20,
 
-    musica.play().catch(error => {
-        console.log(error);
+        y: canvas.height/2 + -punto.y * 22 + (Math.random()-0.5)*20,
+
+        size: Math.random()*3,
+
+        alpha: Math.random(),
+
+        speed: Math.random()*0.5 + 0.2
+    });
+}
+
+/* BASE LUMINOSA */
+function drawBase(){
+
+    const gradient = ctx.createRadialGradient(
+        canvas.width/2,
+        canvas.height/2 + 320,
+        10,
+        canvas.width/2,
+        canvas.height/2 + 320,
+        120
+    );
+
+    gradient.addColorStop(0,"rgba(120,200,255,1)");
+    gradient.addColorStop(.3,"rgba(120,200,255,.8)");
+    gradient.addColorStop(1,"rgba(120,200,255,0)");
+
+    ctx.fillStyle = gradient;
+
+    ctx.beginPath();
+
+    ctx.ellipse(
+        canvas.width/2,
+        canvas.height/2 + 320,
+        140,
+        35,
+        0,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+}
+
+/* ANIMACIÓN */
+function animate(){
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    drawBase();
+
+    particles.forEach(p=>{
+
+        p.alpha += 0.01 * p.speed;
+
+        if(p.alpha >= 1){
+            p.alpha = 0.2;
+        }
+
+        ctx.beginPath();
+
+        ctx.fillStyle = `rgba(120,190,255,${p.alpha})`;
+
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "#66bbff";
+
+        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
+
+        ctx.fill();
     });
 
-    // CORAZONES CONTINUOS
-    window.intervaloCorazones = setInterval(() => {
-        crearCorazon();
-    }, 200);
+    requestAnimationFrame(animate);
 }
 
-// VOLVER
-function volverInicio(){
+animate();
 
-    document.getElementById('pantallaMensaje').classList.add('hidden');
+/* RESPONSIVE */
+window.addEventListener("resize",()=>{
 
-    document.getElementById('pantallaInicio').classList.remove('hidden');
-
-    // DETENER CORAZONES
-    clearInterval(window.intervaloCorazones);
-
-    // DETENER MÚSICA
-    const musica = document.getElementById('musicaFondo');
-
-    musica.pause();
-
-    musica.currentTime = 0;
-}
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 
 </script>
 
