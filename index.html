@@ -25,29 +25,30 @@ body{
 .inicio{
 
     position:fixed;
+
     inset:0;
 
     display:flex;
+
     flex-direction:column;
 
     justify-content:center;
+
     align-items:center;
 
     background:
     radial-gradient(circle,
-    rgba(20,20,40,.9),
+    rgba(20,20,40,.95),
     black);
 
-    z-index:20;
+    z-index:100;
 
     transition:1s;
 }
 
 .titulo{
 
-    font-size:70px;
-
-    font-weight:bold;
+    font-size:75px;
 
     color:#9fd0ff;
 
@@ -57,35 +58,31 @@ body{
     0 0 10px #66bbff,
     0 0 20px #66bbff,
     0 0 40px #66bbff,
-    0 0 80px #66bbff;
+    0 0 90px #66bbff;
 
     margin-bottom:20px;
-
-    animation: glow 2s infinite alternate;
 }
 
 .frase{
 
     color:white;
 
-    font-size:24px;
+    font-size:25px;
 
-    max-width:700px;
+    max-width:800px;
 
     text-align:center;
 
-    line-height:40px;
-
-    opacity:.9;
-
-    margin-bottom:50px;
+    line-height:45px;
 
     padding:20px;
+
+    margin-bottom:40px;
 }
 
 .boton{
 
-    padding:18px 45px;
+    padding:18px 50px;
 
     border:none;
 
@@ -101,31 +98,16 @@ body{
 
     cursor:pointer;
 
+    transition:.4s;
+
     box-shadow:
     0 0 20px #66bbff,
-    0 0 50px #66bbff;
-
-    transition:.4s;
+    0 0 60px #66bbff;
 }
 
 .boton:hover{
 
     transform:scale(1.08);
-
-    box-shadow:
-    0 0 30px #66bbff,
-    0 0 80px #66bbff;
-}
-
-@keyframes glow{
-
-    from{
-        opacity:.7;
-    }
-
-    to{
-        opacity:1;
-    }
 }
 
 /* TEXTO CENTRAL */
@@ -147,7 +129,7 @@ body{
 
     color:#9fd0ff;
 
-    z-index:10;
+    z-index:20;
 
     opacity:0;
 
@@ -160,6 +142,17 @@ body{
     animation: glow 2s infinite alternate;
 }
 
+@keyframes glow{
+
+    from{
+        opacity:.7;
+    }
+
+    to{
+        opacity:1;
+    }
+}
+
 /* BASE */
 
 .base{
@@ -167,11 +160,13 @@ body{
     position:absolute;
 
     bottom:100px;
+
     left:50%;
 
     transform:translateX(-50%);
 
     width:260px;
+
     height:40px;
 
     border-radius:50%;
@@ -187,6 +182,76 @@ body{
     0 0 100px #66bbff;
 }
 
+/* IMÁGENES */
+
+.imagenes{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:40px;
+
+    opacity:0;
+
+    transition:2s;
+
+    z-index:30;
+
+    pointer-events:none;
+}
+
+.foto{
+
+    width:280px;
+
+    height:400px;
+
+    object-fit:cover;
+
+    border-radius:25px;
+
+    border:3px solid #8ec5ff;
+
+    box-shadow:
+    0 0 20px #66bbff,
+    0 0 60px #66bbff,
+    0 0 120px #66bbff;
+
+    opacity:0;
+}
+
+.foto1{
+
+    transform:
+    rotate(-8deg)
+    scale(.7);
+}
+
+.foto2{
+
+    transform:
+    rotate(8deg)
+    scale(.7);
+}
+
+.foto.visible{
+
+    opacity:1;
+
+    transform:
+    rotate(0deg)
+    scale(1);
+
+    transition:2s;
+}
+
 /* CANVAS */
 
 canvas{
@@ -199,7 +264,7 @@ canvas{
 
 <body>
 
-<!-- PANTALLA INICIAL -->
+<!-- PANTALLA -->
 
 <div class="inicio" id="inicio">
 
@@ -208,10 +273,17 @@ canvas{
     </div>
 
     <div class="frase">
-    
-        Eres una de las personas más importantes de mi vida,
-        y aunque a veces no lo diga mucho,
-        siempre voy a cuidarte y quererte con todo mi corazón.
+
+        Gracias por estar siempre conmigo.
+
+        Por las risas,
+        los momentos felices,
+        y por nunca dejarme solo.
+
+        Pase lo que pase,
+        siempre tendrás un lugar especial
+        en mi corazón.
+
     </div>
 
     <button class="boton" onclick="iniciar()">
@@ -230,8 +302,25 @@ canvas{
 
 <div class="base" id="base"></div>
 
-<!-- MÚSICA -->
-<!-- CAMBIA EL ARCHIVO MP3 -->
+<!-- IMÁGENES -->
+
+<div class="imagenes" id="imagenes">
+
+    <!-- CAMBIA AQUÍ LAS FOTOS -->
+
+    <img
+    src="foto1.jpg"
+    class="foto foto1"
+    id="foto1">
+
+    <img
+    src="foto2.jpg"
+    class="foto foto2"
+    id="foto2">
+
+</div>
+
+<!-- AUDIO -->
 
 <audio id="musica" loop>
     <source src="New West - Those Eyes (Lyrics).mp3" type="audio/mpeg">
@@ -304,7 +393,7 @@ function roseShape(t){
     }
 }
 
-/* CREAR FIGURAS */
+/* CREAR FIGURA */
 
 function createShape(shape,scale=18){
 
@@ -404,20 +493,63 @@ function animate(){
     requestAnimationFrame(animate);
 }
 
+/* MOSTRAR IMÁGENES */
+
+function mostrarFotos(){
+
+    const imagenes =
+    document.getElementById(
+        "Screenshot_2026-05-09-20-41-35-094_com.google.android.apps.photos.jpg"
+    );
+
+    imagenes.style.opacity = "1";
+
+    document.getElementById(
+        "Screenshot_2026-05-09-20-43-46-679_com.google.android.apps.photos.jpg"
+    ).classList.add(
+        "visible"
+    );
+
+    setTimeout(()=>{
+
+        document.getElementById(
+            "Screenshot_2026-05-09-20-43-49-913_com.google.android.apps.photos.jpg"
+        ).classList.add(
+            "visible"
+        );
+
+    },1500);
+}
+
+/* OCULTAR */
+
+function ocultarFotos(){
+
+    document.getElementById(
+        "imagenes"
+    ).style.opacity = "0";
+}
+
 /* SECUENCIA */
 
 function sequence(){
+
+    /* CORAZÓN */
 
     createShape(
         heartShape,
         18
     );
 
+    /* EXPLOSIÓN */
+
     setTimeout(()=>{
 
         explode();
 
     },5000);
+
+    /* FLOR */
 
     setTimeout(()=>{
 
@@ -428,11 +560,15 @@ function sequence(){
 
     },9000);
 
+    /* MOSTRAR FOTOS */
+
     setTimeout(()=>{
 
-        explode();
+        mostrarFotos();
 
-    },14000);
+    },13000);
+
+    /* ROSA */
 
     setTimeout(()=>{
 
@@ -441,13 +577,25 @@ function sequence(){
             24
         );
 
-    },18000);
+    },17000);
+
+    /* OCULTAR FOTOS */
+
+    setTimeout(()=>{
+
+        ocultarFotos();
+
+    },23000);
+
+    /* EXPLOSIÓN */
 
     setTimeout(()=>{
 
         explode();
 
-    },24000);
+    },25000);
+
+    /* CORAZÓN FINAL */
 
     setTimeout(()=>{
 
@@ -483,14 +631,11 @@ function iniciar(){
         "base"
     ).style.opacity = "1";
 
-    /* REPRODUCIR MÚSICA */
+    /* MÚSICA */
 
-    const musica =
     document.getElementById(
         "musica"
-    );
-
-    musica.play();
+    ).play();
 
     /* ANIMACIÓN */
 
